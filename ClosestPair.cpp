@@ -1,4 +1,18 @@
-#include "ClosestPair.hpp"
+
+/**
+ * @file ClosestPair.cpp
+ * @author dehghh1@mcmaster.ca
+ * @brief In this class a vector of points is as an input.
+ * There is an algorithm for finding the closest pair of points in terms of distance.
+ * The brute force algorithm is of order O(n^2).
+ * However, the implemented algorithm is order of O(n log n) with using sweep line approach. 
+ * @version 0.1
+ * @date 2021-12-20
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #include "Utility.hpp"
 #include "point.hpp"
 #include "GeometryAlgorithms.hpp"
@@ -7,18 +21,36 @@
 #include <iostream>
 
 using namespace std;
-
+/**
+ * @brief Read points from a file and store them in a vector of points as a object of the class.
+ * Use already defined method of the Utility class.
+ * 
+ * @param address the string hols address of the file code reads from that
+ */
 void ClosestPair::read_points(std::string address)
 {  
     points = Utility::read_points(address);
 }
 
+/**
+ * @brief A method to compute the distance of two points. Using square root of already defined method of Utility class.
+ * 
+ * @param p1 The first point
+ * @param p2 The second point to compute the distance with.
+ * @return double Return the distance of two points.
+ */
 double ClosestPair::dist(const point &p1, const point &p2) const
 {
     return sqrt(Utility::square_distance(p1, p2));
 }
 
-
+/**
+ * @brief The method compare two values and return the smaller one.
+ * 
+ * @param x The first input for comparison.
+ * @param y The second input for comparison.
+ * @return double Return the smaller value.
+ */
 double ClosestPair::min(double x, double y)
 {
     if( x < y)
@@ -31,6 +63,15 @@ double ClosestPair::min(double x, double y)
     }
 }
 
+/**
+ * @brief A method to find the distance between the closest points of strip of a given size.
+ * The length of vector strip cannot be greater than 6 because the minimum distance could not be d anymore.
+ * As a result the time complexity of the method remain O(n)
+ * @param strip Vector of points sorted based on y coordinates. With d as the upper bound for distance
+ * @param size The size of the strip vector
+ * @param d The upper bound distance between
+ * @return double Return the new minimum distance of two points.
+ */
 double ClosestPair::strip_closest(vector<point> strip,uint64_t size, double d)
 {
     double min = d;
@@ -48,6 +89,14 @@ double ClosestPair::strip_closest(vector<point> strip,uint64_t size, double d)
     return min;
 }
 
+/**
+ * @brief A recursive function to find the smallest distance
+ * 
+ * @param px Contains all pointes sorted according to x coordinates.
+ * @param py Contains all pointes sorted according to y coordinates.
+ * @param n  Number of points.    
+ * @return double Return thee minimum distace of two points based on the length of given arrays.
+ */
 double ClosestPair::closest_util(vector<point> px, vector<point> py, uint64_t n)
 {
     // if n < 3
@@ -86,7 +135,10 @@ double ClosestPair::closest_util(vector<point> px, vector<point> py, uint64_t n)
     return strip_closest(strip, j, d);
 
 }
-
+/**
+ * @brief Main method to find the closest pairs. Calling other methods.
+ * Print out the result
+ */
 void ClosestPair::solve()
 {
     uint64_t n = points.size();
