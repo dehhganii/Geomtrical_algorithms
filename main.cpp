@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-    /*
+    
     string file = Utility::address = "points.txt";
     vector<point> points;
     
@@ -22,7 +22,7 @@ int main()
     alg->read_points("points.txt");
     alg->solve();
 
-    
+    /*
 
     const int64_t width = 200;
     const int64_t height = 200;
